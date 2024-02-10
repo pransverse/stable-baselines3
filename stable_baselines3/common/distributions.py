@@ -77,7 +77,7 @@ class Distribution(ABC):
         :return: the stochastic action
         """
 
-    def get_actions(self, deterministic: bool = False) -> th.Tensor:
+    def get_actions(self, obs, deterministic: bool = False) -> th.Tensor:
         """
         Return actions according to the probability distribution.
 
@@ -86,7 +86,7 @@ class Distribution(ABC):
         """
         if deterministic:
             return self.mode()
-        return self.sample()
+        return self.sample(obs)
 
     @abstractmethod
     def actions_from_params(self, *args, **kwargs) -> th.Tensor:
@@ -185,10 +185,10 @@ class DiagGaussianDistribution(Distribution):
     def mode(self) -> th.Tensor:
         return self.distribution.mean
 
-    def actions_from_params(self, mean_actions: th.Tensor, log_std: th.Tensor, deterministic: bool = False) -> th.Tensor:
+    def actions_from_params(self, mean_actions: th.Tensor, log_std: th.Tensor, obs, deterministic: bool = False) -> th.Tensor:
         # Update the proba distribution
         self.proba_distribution(mean_actions, log_std)
-        return self.get_actions(deterministic=deterministic)
+        return self.get_actions(obs, deterministic=deterministic)
 
     def log_prob_from_params(self, mean_actions: th.Tensor, log_std: th.Tensor) -> Tuple[th.Tensor, th.Tensor]:
         """
