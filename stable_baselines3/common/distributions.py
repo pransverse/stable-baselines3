@@ -305,8 +305,8 @@ class CategoricalDistribution(Distribution):
         self.proba_distribution(action_logits)
         return self.get_actions(obs, deterministic=deterministic)
 
-    def log_prob_from_params(self, action_logits: th.Tensor) -> Tuple[th.Tensor, th.Tensor]:
-        actions = self.actions_from_params(action_logits)
+    def log_prob_from_params(self, action_logits: th.Tensor, obs) -> Tuple[th.Tensor, th.Tensor]:
+        actions = self.actions_from_params(action_logits, obs)
         log_prob = self.log_prob(actions)
         return actions, log_prob
 
@@ -362,8 +362,8 @@ class MultiCategoricalDistribution(Distribution):
         self.proba_distribution(action_logits)
         return self.get_actions(obs, deterministic=deterministic)
 
-    def log_prob_from_params(self, action_logits: th.Tensor) -> Tuple[th.Tensor, th.Tensor]:
-        actions = self.actions_from_params(action_logits)
+    def log_prob_from_params(self, action_logits: th.Tensor, obs) -> Tuple[th.Tensor, th.Tensor]:
+        actions = self.actions_from_params(action_logits, obs)
         log_prob = self.log_prob(actions)
         return actions, log_prob
 
@@ -412,8 +412,8 @@ class BernoulliDistribution(Distribution):
         self.proba_distribution(action_logits)
         return self.get_actions(obs,deterministic=deterministic)
 
-    def log_prob_from_params(self, action_logits: th.Tensor) -> Tuple[th.Tensor, th.Tensor]:
-        actions = self.actions_from_params(action_logits)
+    def log_prob_from_params(self, action_logits: th.Tensor, obs) -> Tuple[th.Tensor, th.Tensor]:
+        actions = self.actions_from_params(action_logits, obs)
         log_prob = self.log_prob(actions)
         return actions, log_prob
 
@@ -610,9 +610,9 @@ class StateDependentNoiseDistribution(Distribution):
         return self.get_actions(obs, deterministic=deterministic)
 
     def log_prob_from_params(
-        self, mean_actions: th.Tensor, log_std: th.Tensor, latent_sde: th.Tensor
+        self, mean_actions: th.Tensor, log_std: th.Tensor, latent_sde: th.Tensor, obs
     ) -> Tuple[th.Tensor, th.Tensor]:
-        actions = self.actions_from_params(mean_actions, log_std, latent_sde)
+        actions = self.actions_from_params(mean_actions, log_std, latent_sde, obs)
         log_prob = self.log_prob(actions)
         return actions, log_prob
 
