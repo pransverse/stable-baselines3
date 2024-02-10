@@ -167,7 +167,7 @@ class Actor(BasePolicy):
     def forward(self, obs: PyTorchObs, deterministic: bool = False) -> th.Tensor:
         mean_actions, log_std, kwargs = self.get_action_dist_params(obs)
         # Note: the action is squashed
-        return self.action_dist.actions_from_params(mean_actions, log_std, deterministic=deterministic, **kwargs)
+        return self.action_dist.actions_from_params(mean_actions, log_std, deterministic=deterministic, **kwargs, obs)
 
     def action_log_prob(self, obs: PyTorchObs) -> Tuple[th.Tensor, th.Tensor]:
         mean_actions, log_std, kwargs = self.get_action_dist_params(obs)
