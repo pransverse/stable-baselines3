@@ -86,7 +86,7 @@ class Distribution(ABC):
         """
         if deterministic:
             return self.mode()
-        return self.sample(obs)
+        return self.sample(obs = obs)
 
     @abstractmethod
     def actions_from_params(self, *args, **kwargs) -> th.Tensor:
