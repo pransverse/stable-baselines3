@@ -172,7 +172,7 @@ class Actor(BasePolicy):
     def action_log_prob(self, obs: PyTorchObs) -> Tuple[th.Tensor, th.Tensor]:
         mean_actions, log_std, kwargs = self.get_action_dist_params(obs)
         # return action and associated log prob
-        return self.action_dist.log_prob_from_params(mean_actions, log_std, **kwargs)
+        return self.action_dist.log_prob_from_params(mean_actions, log_std, obs, **kwargs)
 
     def _predict(self, observation: PyTorchObs, deterministic: bool = False) -> th.Tensor:
         return self(observation, deterministic)
